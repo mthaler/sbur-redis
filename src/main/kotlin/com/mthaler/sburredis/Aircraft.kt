@@ -3,9 +3,11 @@ package com.mthaler.sburredis
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.Id
+import org.springframework.data.redis.core.RedisHash
 import java.time.Instant
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@RedisHash
 data class Aircraft(
     @Id @JsonProperty("id") val id: Long? = 0L,
     @JsonProperty("callsign") val callsign: String? = "",

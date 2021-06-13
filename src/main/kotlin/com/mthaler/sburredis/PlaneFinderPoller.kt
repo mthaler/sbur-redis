@@ -12,7 +12,7 @@ import org.springframework.web.reactive.function.client.bodyToFlux
 @Component
 class PlaneFinderPoller(
     private val connectionFactory: RedisConnectionFactory,
-    private val redisOperations: RedisOperations<String, Aircraft>
+    private val repository: AircraftRepository
 ) {
     private val client = WebClient.create("http://localhost:7634/aircraft")
 
@@ -25,11 +25,8 @@ class PlaneFinderPoller(
             .bodyToFlux<Aircraft>()
             .filter { !it.reg.isNullOrEmpty() }
             .toStream()
-            .forEach { redisOperations.opsForValue()[it.reg!!] = it }
+            .forEach { repository.save(it) }
 
-        redisOperations.opsForValue()
-            .operations
-            .keys("*")
-            ?.forEach { println(redisOperations.opsForValue()[it]) }
+        repository.findAll().forEach { println(it) }
     }
 }
