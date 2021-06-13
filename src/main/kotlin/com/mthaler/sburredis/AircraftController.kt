@@ -11,5 +11,5 @@ class AircraftController(private val repository: AircraftRepository) {
     @ResponseBody
     @GetMapping("/aircraft")
     @Throws(IOException::class)
-    fun getCoffees(): Iterable<Aircraft> = repository.findAll()
+    fun getAircrafts(): Iterable<Aircraft> = repository.findAll()
 }
